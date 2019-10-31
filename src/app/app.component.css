@@ -1,0 +1,42 @@
+.nav {
+  display: flex;
+}
+
+.nav .active {
+  background: rebeccapurple;
+}
+
+.fields div {
+  display: none;
+  margin: 6px;
+  padding: 32px;
+  border: 1px solid grey;
+}
+
+.fields span,
+.fields .visible {
+  display: block;
+}
+
+.result {
+  margin: 6px;
+  padding: 32px;
+  border: 1px solid grey;
+}
+
+.result span {
+  display: block;
+}
+
+button {
+  border: none;
+  margin: 1px;
+  padding: 6px 32px;
+  cursor: pointer;
+  color: #fff;
+  background: rebeccapurple;
+}
+
+button[disabled] {
+  opacity: 0.5;
+}
