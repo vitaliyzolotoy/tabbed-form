@@ -6,6 +6,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { formReducer } from './app.reducers';
+import {HttpClientModule} from '@angular/common/http';
+import {AppEffects} from './app.effects';
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,9 @@ import { formReducer } from './app.reducers';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({ form: formReducer })
+    HttpClientModule,
+    StoreModule.forRoot({ form: formReducer }),
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

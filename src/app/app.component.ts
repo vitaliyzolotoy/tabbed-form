@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {resetForm, saveForm, switchTab} from './app.actions';
-import {stringify} from 'querystring';
+import {loadTabs, resetForm, saveForm, switchTab} from './app.actions';
 
 @Component({
   selector: 'app-root',
@@ -16,26 +15,7 @@ export class AppComponent {
     email: '',
     phone: ''
   };
-  tabs: { id: number, title: string, placeholder: string, ref: string }[] = [
-    {
-      id: 1,
-      title: 'Name',
-      placeholder: 'Enter your name...',
-      ref: 'name'
-    },
-    {
-      id: 2,
-      title: 'Email',
-      placeholder: 'Enter your email...',
-      ref: 'email'
-    },
-    {
-      id: 3,
-      title: 'Phone',
-      placeholder: 'Enter your phone...',
-      ref: 'phone'
-    }
-  ];
+  tabs: { id: number, title: string, placeholder: string, ref: string }[];
   signUpForm: FormGroup;
 
   constructor(private store: Store<{ form: object }>) {
@@ -51,12 +31,18 @@ export class AppComponent {
     store.pipe(select('form')).subscribe(data => {
       this.currentTab = data.currentTab;
 
+      this.tabs = data.tabs;
+
       this.formValue.name = data.name;
 
       this.formValue.email = data.email;
 
       this.formValue.phone = data.phone;
     });
+  }
+
+  ngOnInit() {
+    this.store.dispatch(loadTabs());
   }
 
   isErrorVisible(field: string, error: string) {
