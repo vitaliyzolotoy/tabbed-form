@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
 import {map, catchError, switchMap} from 'rxjs/operators';
 import { AppService } from './app.service';
-import {tabsLoaded} from './app.actions';
+import {tabsLoaded, tabsLoadedError} from './app.actions';
+import {of} from 'rxjs';
 
 @Injectable()
 export class AppEffects {
@@ -13,7 +13,9 @@ export class AppEffects {
     switchMap(() => this.appService.getTabs()
       .pipe(
         map(tabs => tabsLoaded({ tabs })),
-        catchError(() => EMPTY)
+        catchError(() => {
+          return of(tabsLoadedError());
+        })
       ))
     )
   );
