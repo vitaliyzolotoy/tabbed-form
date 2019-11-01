@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import {map, catchError, switchMap} from 'rxjs/operators';
 import { AppService } from './app.service';
-import {switchTab, tabsLoaded} from './app.actions';
-import {Store} from '@ngrx/store';
+import {tabsLoaded} from './app.actions';
 
 @Injectable()
 export class AppEffects {
 
   loadTabs = createEffect(() => this.actions$.pipe(
     ofType('[Form Component] Load Tabs'),
-    mergeMap(() => this.appService.getTabs()
+    switchMap(() => this.appService.getTabs()
       .pipe(
-        map(tabs => this.store.dispatch(tabsLoaded({ tabs }))),
+        map(tabs => tabsLoaded({ tabs })),
         catchError(() => EMPTY)
       ))
     )
@@ -21,7 +20,6 @@ export class AppEffects {
 
   constructor(
     private actions$: Actions,
-    private appService: AppService,
-    private store: Store<{ form: object }>
+    private appService: AppService
   ) {}
 }

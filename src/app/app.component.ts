@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {loadTabs, resetForm, saveForm, switchTab} from './app.actions';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+  subscription = new Subscription();
   currentTab: number;
   formValue: { name: string, email: string, phone: string } = {
     name: '',
@@ -19,6 +21,9 @@ export class AppComponent {
   signUpForm: FormGroup;
 
   constructor(private store: Store<{ form: object }>) {
+  }
+
+  ngOnInit() {
     this.signUpForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [
@@ -28,7 +33,7 @@ export class AppComponent {
       phone: new FormControl('', Validators.required),
     });
 
-    store.pipe(select('form')).subscribe(data => {
+    this.subscription.add(this.store.pipe(select('form')).subscribe(data => {
       this.currentTab = data.currentTab;
 
       this.tabs = data.tabs;
@@ -38,11 +43,13 @@ export class AppComponent {
       this.formValue.email = data.email;
 
       this.formValue.phone = data.phone;
-    });
+    }));
+
+    this.store.dispatch(loadTabs());
   }
 
-  ngOnInit() {
-    this.store.dispatch(loadTabs());
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   isErrorVisible(field: string, error: string) {
