@@ -26,10 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.signUpForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ]),
+      email: new FormControl('', Validators.required),
       phone: new FormControl('', Validators.required),
     });
 
