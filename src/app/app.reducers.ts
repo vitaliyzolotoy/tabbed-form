@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import {loadTabs, resetForm, saveForm, switchTab, tabsLoaded} from './app.actions';
+import {resetForm, saveForm, switchTab, tabsLoaded} from './app.actions';
 
 export const initialState = {
   currentTab: 1,

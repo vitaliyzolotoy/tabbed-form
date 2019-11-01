@@ -11,14 +11,14 @@ import {Subscription} from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
-  currentTab: number;
-  formValue: { name: string, email: string, phone: string } = {
+  public currentTab: number;
+  public formValue: { name: string, email: string, phone: string } = {
     name: '',
     email: '',
     phone: ''
   };
-  tabs: { id: number, title: string, placeholder: string, ref: string }[];
-  signUpForm: FormGroup;
+  public tabs: { id: number, title: string, placeholder: string, ref: string }[];
+  public signUpForm: FormGroup;
 
   constructor(private store: Store<{ form: object }>) {
   }
